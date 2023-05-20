@@ -31,11 +31,38 @@ func main() {
 		f.Println("db alive")
 	}
 
-	insert, err := db.Query("INSERT INTO `testdb`.`students` (`id`, `firstname`, `lastname`) VALUES ('2', 'Ben', 'Ford');")
+	// insert, err := db.Query("INSERT INTO `testdb`.`students` (`id`, `firstname`, `lastname`) VALUES ('2', 'Ben', 'Ford');")
+	// if err != nil {
+	// 	panic(err.Error())
+	// }
+	// defer insert.Close()
+	// f.Println("Successful connection to database")
+
+	rows, err := db.Query("SELECT * FROM students")
 	if err != nil {
-		panic(err.Error())
+		f.Println("Error executing query:", err)
+		return
 	}
-	defer insert.Close()
-	f.Println("Successful connection to database")
+	defer rows.Close()
+
+	// Iterate over the rows and retrieve data
+	for rows.Next() {
+		var column1 int
+		var column2 string
+		var column3 string
+
+		// Scan the values from the current row into variables
+		err := rows.Scan(&column1, &column2, &column3)
+		if err != nil {
+			f.Println("Error retrieving data:", err)
+			return
+		}
+		// Process the retrieved data
+		f.Println("Column1:", column1, "Column2:", column2, "Column3:", column3)
+	}
+	if err := rows.Err(); err != nil {
+		f.Println("Error retrieving data:", err)
+		return
+	}
 
 }
