@@ -1,16 +1,12 @@
-package main
+package db
 
 import (
 	"database/sql"
 	f "fmt"
-
-	// "github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
 )
 
-
-func main() {
-	f.Print("hello world!")
+func OpenDB() *sql.DB {
 
 	db, error := sql.Open("mysql", "root:alade2001@tcp(localhost:3306)/testdb")
 	if error != nil {
@@ -20,7 +16,8 @@ func main() {
 		f.Println("Successfully opened")
 	}
 
-	defer db.Close()
+
+	// defer db.Close()
 
 	error = db.Ping()
 
@@ -31,17 +28,15 @@ func main() {
 		f.Println("db alive")
 	}
 
-	// insert, err := db.Query("INSERT INTO `testdb`.`students` (`id`, `firstname`, `lastname`) VALUES ('2', 'Ben', 'Ford');")
-	// if err != nil {
-	// 	panic(err.Error())
-	// }
-	// defer insert.Close()
-	// f.Println("Successful connection to database")
+	return db
+}
 
+
+func GetTodos(db *sql.DB) *sql.Rows {
 	rows, err := db.Query("SELECT * FROM students")
 	if err != nil {
 		f.Println("Error executing query:", err)
-		return
+		// return
 	}
 	defer rows.Close()
 
@@ -55,14 +50,25 @@ func main() {
 		err := rows.Scan(&column1, &column2, &column3)
 		if err != nil {
 			f.Println("Error retrieving data:", err)
-			return
+			// return
 		}
 		// Process the retrieved data
 		f.Println("Column1:", column1, "Column2:", column2, "Column3:", column3)
 	}
 	if err := rows.Err(); err != nil {
 		f.Println("Error retrieving data:", err)
-		return
+		// return
 	}
 
+	return rows
 }
+
+
+// insert, err := db.Query("INSERT INTO `testdb`.`students` (`id`, `firstname`, `lastname`) VALUES ('2', 'Ben', 'Ford');")
+	// if err != nil {
+	// 	panic(err.Error())
+	// }
+	// defer insert.Close()
+	// f.Println("Successful connection to database")
+
+	
