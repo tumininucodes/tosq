@@ -22,6 +22,10 @@ func main() {
 		ctx.JSON(200, db.GetTodos(database()))
 	})
 
+	server.POST("/todo", func(ctx *gin.Context) {
+		ctx.JSON(201, db.CreateTodo(database()))
+	})
+
 	server.Run(":8080")
 	
 
