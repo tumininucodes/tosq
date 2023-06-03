@@ -3,6 +3,8 @@ package db
 import (
 	"database/sql"
 	f "fmt"
+	"todo/db/models"
+
 	_ "github.com/go-sql-driver/mysql"
 )
 
@@ -15,9 +17,6 @@ func OpenDB() *sql.DB {
 	} else {
 		f.Println("Successfully opened")
 	}
-
-
-	// defer db.Close()
 
 	error = db.Ping()
 
@@ -32,35 +31,39 @@ func OpenDB() *sql.DB {
 }
 
 
-func GetTodos(db *sql.DB) *sql.Rows {
+func GetTodos(db *sql.DB) []models.Todo {
+
+	todos := []models.Todo{}
+
+
 	rows, err := db.Query("SELECT * FROM students")
 	if err != nil {
 		f.Println("Error executing query:", err)
-		// return
+		return []models.Todo{}
 	}
 	defer rows.Close()
 
-	// Iterate over the rows and retrieve data
-	for rows.Next() {
-		var column1 int
-		var column2 string
-		var column3 string
 
-		// Scan the values from the current row into variables
-		err := rows.Scan(&column1, &column2, &column3)
+	for rows.Next() {
+		var todo models.Todo
+
+
+		err := rows.Scan(&todo.Id, &todo.Title, &todo.Body)
 		if err != nil {
 			f.Println("Error retrieving data:", err)
-			// return
+			return []models.Todo{}
 		}
-		// Process the retrieved data
-		f.Println("Column1:", column1, "Column2:", column2, "Column3:", column3)
+
+		todos = append(todos, todo)
+
+		f.Println("id:", todo.Id, "body:", todo.Body, "createdAt:", todo.CreatedAt)
 	}
 	if err := rows.Err(); err != nil {
 		f.Println("Error retrieving data:", err)
-		// return
+		return []models.Todo{}
 	}
 
-	return rows
+	return todos
 }
 
 

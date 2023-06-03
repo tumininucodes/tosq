@@ -4,23 +4,25 @@ import (
 	"fmt"
 	"todo/db"
 
-	// "github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
 )
 
 
 func main() {
 
+
 	fmt.Println("start of application")
+	server := gin.Default()
 
 	database := db.OpenDB
-
-
 	defer database().Close()
 
-	todos := db.GetTodos(database())
+	server.GET("/todos", func(ctx *gin.Context) {
+		ctx.JSON(200, db.GetTodos(database()))
+	})
 
-	fmt.Println(todos)
+	server.Run(":8080")
 	
 
 }
