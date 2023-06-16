@@ -34,7 +34,7 @@ func GetTodos(db *sql.DB) []models.Todo {
 
 	todos := []models.Todo{}
 
-	rows, err := db.Query("SELECT * FROM students")
+	rows, err := db.Query("SELECT * FROM todo")
 	if err != nil {
 		fmt.Println("Error executing query:", err)
 		return []models.Todo{}
@@ -66,19 +66,18 @@ func CreateTodo(db *sql.DB) []models.Todo {
 
 	todos := []models.Todo{}
 
-	result, err := db.Exec("INSERT INTO `testdb`.`students` (`id`, `firstname`, `lastname`) VALUES ('10', 'Ben', 'Ford');")
+
+	result, err := db.Exec("INSERT INTO todo (title, description) VALUES ('edkndkn', 'wojqew')")
 	if err != nil {
 		panic(err.Error())
 	}
 
-	rowsAffected, err := result.LastInsertId()
+	lastInsertID, err := result.LastInsertId()
 	if err != nil {
 		panic(err.Error())
 	}
 
-	fmt.Println(rowsAffected)
-
-	rows, err := db.Query("SELECT `id`, `firstname`, `lastname` FROM `testdb`.`students` WHERE `id`=?", rowsAffected)
+	rows, err := db.Query("SELECT id, title, description FROM todo WHERE id=?", lastInsertID)
 	if err != nil {
 		panic(err.Error())
 	}
