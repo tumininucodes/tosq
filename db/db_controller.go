@@ -62,11 +62,9 @@ func GetTodos(db *sql.DB) []models.Todo {
 	return todos
 }
 
-func CreateTodo(db *sql.DB) []models.Todo {
+func CreateTodo(db *sql.DB, todo *models.Todo) []models.Todo {
 
 	todos := []models.Todo{}
-
-	fmt.Println(time.Now().UTC().String())
 
 	timeStr := "2023-06-16 03:12:20.350418 +0000 UTC"
 	layoutIn := "2006-01-02 15:04:05.000000 -0700 MST"
@@ -80,7 +78,7 @@ func CreateTodo(db *sql.DB) []models.Todo {
 
 	formattedTime := parsedTime.Format(layoutOut)
 
-	result, err := db.Exec("INSERT INTO todo (title, description, createdAt) VALUES (?, ?, ?)", "Hii", "Joe", formattedTime)
+	result, err := db.Exec("INSERT INTO todo (title, description, createdAt) VALUES (?, ?, ?)", todo.Title, todo.Body, formattedTime)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -106,5 +104,14 @@ func CreateTodo(db *sql.DB) []models.Todo {
 	}
 
 	return todos
+
+}
+
+func UpdateTodo(db *sql.DB, id string) {
+
+
+}
+
+func DeleteTodo(db *sql.DB, id string) {
 
 }
