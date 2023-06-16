@@ -53,7 +53,7 @@ func GetTodos(db *sql.DB) []models.Todo {
 
 		todos = append(todos, todo)
 	}
-	
+
 	if err := rows.Err(); err != nil {
 		fmt.Println("Error retrieving data:", err)
 		panic(err.Error())
