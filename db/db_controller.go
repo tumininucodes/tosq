@@ -6,6 +6,7 @@ import (
 	"time"
 	"todo/db/models"
 
+	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
 )
 
@@ -88,7 +89,7 @@ func CreateTodo(db *sql.DB, todo *models.Todo) []models.Todo {
 		panic(err.Error())
 	}
 
-	rows, err := db.Query("SELECT id, title, description, createdAt FROM todo WHERE id=?", lastInsertID)
+	rows, err := db.Query("SELECT id, title, description, createdAt FROM todo WHERE id = ?", lastInsertID)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -112,6 +113,11 @@ func UpdateTodo(db *sql.DB, id string) {
 
 }
 
-func DeleteTodo(db *sql.DB, id string) {
+func DeleteTodo(db *sql.DB, id string) *gin.H {
+	_, err := db.Exec("DELETE FROM todo where id = ?", id)
+	if err != nil {
+		panic(err.Error())
+	}
 
+	return &gin.H{"status":"Delete operation successful"}
 }

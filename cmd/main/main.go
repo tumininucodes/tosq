@@ -34,6 +34,14 @@ func main() {
 		ctx.JSON(201, db.CreateTodo(database(), &todo))
 	})
 
+	server.DELETE("/todo/:id", func(ctx *gin.Context) {
+		id := ctx.Param("id")
+		// db.DeleteTodo(database(), id)
+		// ctx.Status(204)
+		
+		ctx.JSON(200, db.DeleteTodo(database(), id))
+	})
+
 
 	server.Run(":8080")
 	
