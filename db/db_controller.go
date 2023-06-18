@@ -14,19 +14,13 @@ func OpenDB() *sql.DB {
 
 	db, error := sql.Open("mysql", "root:alade2001@tcp(localhost:3306)/testdb")
 	if error != nil {
-		fmt.Println("error validating sql.Open arguments")
 		panic(error.Error())
-	} else {
-		fmt.Println("Successfully opened")
 	}
 
 	error = db.Ping()
 
 	if error != nil {
-		fmt.Println("error verifying connection with db.Ping")
 		panic(error.Error())
-	} else {
-		fmt.Println("db alive")
 	}
 
 	return db

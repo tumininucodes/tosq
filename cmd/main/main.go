@@ -8,6 +8,8 @@ import (
 	"todo/db/models"
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
+	ginSwagger "github.com/swaggo/gin-swagger"
+	swaggerFiles "github.com/swaggo/files"
 )
 
 
@@ -20,6 +22,9 @@ func main() {
 	database := db.OpenDB
 	defer database().Close()
 
+	// Add swagger
+	server.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
 	server.GET("/todos", func(ctx *gin.Context) {
 		ctx.JSON(200, db.GetTodos(database()))
 	})
@@ -30,13 +35,11 @@ func main() {
 			ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
-		fmt.Println(todo)
 		ctx.JSON(201, db.CreateTodo(database(), &todo))
 	})
 
 	server.DELETE("/todo/:id", func(ctx *gin.Context) {
 		id := ctx.Param("id")
-		
 		ctx.JSON(200, db.DeleteTodo(database(), id))
 	})
 
