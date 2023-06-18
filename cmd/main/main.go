@@ -3,9 +3,9 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"strconv"
 	"todo/db"
 	"todo/db/models"
-
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -36,10 +36,22 @@ func main() {
 
 	server.DELETE("/todo/:id", func(ctx *gin.Context) {
 		id := ctx.Param("id")
-		// db.DeleteTodo(database(), id)
-		// ctx.Status(204)
 		
 		ctx.JSON(200, db.DeleteTodo(database(), id))
+	})
+
+	server.PUT("todo/:id",  func(ctx *gin.Context) {
+		idString := ctx.Param("id")
+		todo := &models.Todo{}
+		id, err := strconv.Atoi(idString)
+		if err != nil {
+			ctx.JSON(400, gin.H{"error": "wrong id passed"})
+		}
+		if err := ctx.ShouldBindJSON(&todo); err != nil {
+			panic(err.Error())
+		}
+		todo.Id = int64(id)
+		ctx.JSON(200, db.UpdateTodo(database(), todo))
 	})
 
 

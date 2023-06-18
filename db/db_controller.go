@@ -46,7 +46,7 @@ func GetTodos(db *sql.DB) []models.Todo {
 	for rows.Next() {
 		var todo models.Todo
 
-		err := rows.Scan(&todo.Id, &todo.Title, &todo.Body, &todo.CreatedAt)
+		err := rows.Scan(&todo.Id, &todo.Title, &todo.Description, &todo.CreatedAt)
 		if err != nil {
 			fmt.Println("Error retrieving data:", err)
 			panic(err.Error())
@@ -79,7 +79,7 @@ func CreateTodo(db *sql.DB, todo *models.Todo) []models.Todo {
 
 	formattedTime := parsedTime.Format(layoutOut)
 
-	result, err := db.Exec("INSERT INTO todo (title, description, createdAt) VALUES (?, ?, ?)", todo.Title, todo.Body, formattedTime)
+	result, err := db.Exec("INSERT INTO todo (title, description, createdAt) VALUES (?, ?, ?)", todo.Title, todo.Description, formattedTime)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -97,7 +97,7 @@ func CreateTodo(db *sql.DB, todo *models.Todo) []models.Todo {
 
 	for rows.Next() {
 		var todo models.Todo
-		err := rows.Scan(&todo.Id, &todo.Title, &todo.Body, &todo.CreatedAt)
+		err := rows.Scan(&todo.Id, &todo.Title, &todo.Description, &todo.CreatedAt)
 		if err != nil {
 			panic(err.Error())
 		}
@@ -108,9 +108,26 @@ func CreateTodo(db *sql.DB, todo *models.Todo) []models.Todo {
 
 }
 
-func UpdateTodo(db *sql.DB, id string) {
+func UpdateTodo(db *sql.DB, todo *models.Todo) *models.Todo {
+	timeStr := "2023-06-16 03:12:20.350418 +0000 UTC"
+	layoutIn := "2006-01-02 15:04:05.000000 -0700 MST"
+	layoutOut := "2006-01-02T15:04:05Z"
 
+	parsedTime, err := time.Parse(layoutIn, timeStr)
+	if err != nil {
+		fmt.Println("Error parsing time:", err)
+		panic(err.Error())
+	}
 
+	formattedTime := parsedTime.Format(layoutOut)
+	todo.CreatedAt = formattedTime
+
+	_, err = db.Exec("UPDATE todo SET title = ?, description = ?, createdAt = ? WHERE id = ?", todo.Title, todo.Description, todo.CreatedAt, todo.Id)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	return todo
 }
 
 func DeleteTodo(db *sql.DB, id string) *gin.H {
