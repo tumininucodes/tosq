@@ -7,12 +7,17 @@ import (
 	"todo/db"
 	"todo/db/models"
 	"github.com/gin-gonic/gin"
+	_ "todo/cmd/main/docs"
 	_ "github.com/go-sql-driver/mysql"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	swaggerFiles "github.com/swaggo/files"
 )
 
-
+// @title Begin
+// @version 1.0
+// @description Na here we dey
+// @host localhost:8080
+// @BasePath /
 func main() {
 
 
