@@ -13,11 +13,11 @@ import (
 	swaggerFiles "github.com/swaggo/files"
 )
 
-// @title Begin
+// @title Todo API
 // @version 1.0
-// @description Na here we dey
+// @description Todo API Documentation. Written in Go. Gin used
 // @host localhost:8080
-// @BasePath /
+// @BasePath /api
 func main() {
 
 
@@ -29,6 +29,7 @@ func main() {
 
 	// Add swagger
 	server.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
 
 	server.GET("/todos", func(ctx *gin.Context) {
 		ctx.JSON(200, db.GetTodos(database()))
@@ -67,3 +68,13 @@ func main() {
 	
 
 }
+
+	// Get Todos	godoc
+	// @Summary		Get todos
+	// @Description	Fetch todos from DB
+	// @Produce		application/json
+	// @Tags 		todo
+	// @Router		/todos [get]
+	func Heyy()  {
+		fmt.Println("Heyyy")
+	}

@@ -1,12 +1,26 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "Na here we dey",
-        "title": "Begin",
+        "description": "Todo API Documentation. Written in Go. Gin used",
+        "title": "Todo API",
         "contact": {},
         "version": "1.0"
     },
     "host": "localhost:8080",
-    "basePath": "/",
-    "paths": {}
+    "basePath": "/api",
+    "paths": {
+        "/todos": {
+            "get": {
+                "description": "Fetch todos from DB",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "tags"
+                ],
+                "summary": "Get todos",
+                "responses": {}
+            }
+        }
+    }
 }

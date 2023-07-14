@@ -1,9 +1,18 @@
-basePath: /
+basePath: /api
 host: localhost:8080
 info:
   contact: {}
-  description: Na here we dey
-  title: Begin
+  description: Todo API Documentation. Written in Go. Gin used
+  title: Todo API
   version: "1.0"
-paths: {}
+paths:
+  /todos:
+    get:
+      description: Fetch todos from DB
+      produces:
+      - application/json
+      responses: {}
+      summary: Get todos
+      tags:
+      - tags
 swagger: "2.0"
