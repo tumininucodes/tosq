@@ -4,20 +4,21 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
+	"todo/cmd/main/controller"
+	_ "todo/cmd/main/docs"
 	"todo/db"
 	"todo/db/models"
 	"github.com/gin-gonic/gin"
-	_ "todo/cmd/main/docs"
 	_ "github.com/go-sql-driver/mysql"
-	ginSwagger "github.com/swaggo/gin-swagger"
 	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 // @title Todo API
 // @version 1.0
 // @description Todo API Documentation. Written in Go. Gin used
 // @host localhost:8080
-// @BasePath /api
+// @BasePath /
 func main() {
 
 
@@ -32,7 +33,8 @@ func main() {
 
 
 	server.GET("/todos", func(ctx *gin.Context) {
-		ctx.JSON(200, db.GetTodos(database()))
+		controller.GetTodos(ctx, *database())
+		// ctx.JSON(200, db.GetTodos(database()))
 	})
 
 	server.POST("/todo", func(ctx *gin.Context) {
@@ -68,13 +70,3 @@ func main() {
 	
 
 }
-
-	// Get Todos	godoc
-	// @Summary		Get todos
-	// @Description	Fetch todos from DB
-	// @Produce		application/json
-	// @Tags 		todo
-	// @Router		/todos [get]
-	func Heyy()  {
-		fmt.Println("Heyyy")
-	}

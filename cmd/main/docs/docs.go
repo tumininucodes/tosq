@@ -23,10 +23,36 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "tags"
+                    "todo"
                 ],
                 "summary": "Get todos",
-                "responses": {}
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Todo"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "models.Todo": {
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                }
             }
         }
     }
@@ -36,7 +62,7 @@ const docTemplate = `{
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
 	Host:             "localhost:8080",
-	BasePath:         "/api",
+	BasePath:         "/",
 	Schemes:          []string{},
 	Title:            "Todo API",
 	Description:      "Todo API Documentation. Written in Go. Gin used",

@@ -1,4 +1,16 @@
-basePath: /api
+basePath: /
+definitions:
+  models.Todo:
+    properties:
+      createdAt:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      title:
+        type: string
+    type: object
 host: localhost:8080
 info:
   contact: {}
@@ -11,8 +23,12 @@ paths:
       description: Fetch todos from DB
       produces:
       - application/json
-      responses: {}
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Todo'
       summary: Get todos
       tags:
-      - tags
+      - todo
 swagger: "2.0"

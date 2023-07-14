@@ -3,11 +3,11 @@ package db
 import (
 	"database/sql"
 	"fmt"
-	"time"
-	"todo/db/models"
-
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
+	_ "github.com/swaggo/swag"
+	"time"
+	"todo/db/models"
 )
 
 func OpenDB() *sql.DB {
@@ -130,5 +130,5 @@ func DeleteTodo(db *sql.DB, id string) *gin.H {
 		panic(err.Error())
 	}
 
-	return &gin.H{"status":"Delete operation successful"}
+	return &gin.H{"status": "Delete operation successful"}
 }
