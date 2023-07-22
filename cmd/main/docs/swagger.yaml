@@ -1,5 +1,8 @@
 basePath: /
 definitions:
+  gin.H:
+    additionalProperties: {}
+    type: object
   models.Todo:
     properties:
       createdAt:
@@ -18,6 +21,44 @@ info:
   title: Todo API
   version: "1.0"
 paths:
+  /todo:
+    post:
+      description: Add a todo to the DB
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Todo'
+      summary: Create todo
+      tags:
+      - todo
+  /todo/:id:
+    delete:
+      description: Delete a todo from the DB
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Delete todo
+      tags:
+      - todo
+    put:
+      description: Update a todo in the DB
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Todo'
+      summary: Update todo
+      tags:
+      - todo
   /todos:
     get:
       description: Fetch todos from DB

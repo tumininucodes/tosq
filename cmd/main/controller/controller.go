@@ -21,6 +21,13 @@ func GetTodos(ctx *gin.Context, database *sql.DB) {
 	ctx.JSON(200, db.GetTodos(database))
 }
 
+// CreateTodo 	godoc
+// @Summary		Create todo
+// @Description	Add a todo to the DB
+// @Produce		application/json
+// @Tags 		todo
+// @Success 	200 {object} models.Todo{}
+// @Router		/todo [post]
 func CreateTodo(ctx *gin.Context, database *sql.DB) {
 	var todo models.Todo
 	if err := ctx.ShouldBindJSON(&todo); err != nil {
@@ -30,10 +37,24 @@ func CreateTodo(ctx *gin.Context, database *sql.DB) {
 	ctx.JSON(201, db.CreateTodo(database, &todo))
 }
 
+// DeleteTodo 	godoc
+// @Summary		Delete todo
+// @Description	Delete a todo from the DB
+// @Produce		application/json
+// @Tags 		todo
+// @Success 	200 {object} gin.H{}
+// @Router		/todo/:id [delete]
 func DeleteTodo(ctx *gin.Context, database *sql.DB, id string) {
 	ctx.JSON(200, db.DeleteTodo(database, id))
 }
 
+// UpdateTodo 	godoc
+// @Summary		Update todo
+// @Description	Update a todo in the DB
+// @Produce		application/json
+// @Tags 		todo
+// @Success 	200 {object} models.Todo{}
+// @Router		/todo/:id [put]
 func UpdateTodo(idString string, ctx *gin.Context, database *sql.DB) {
 	todo := &models.Todo{}
 	id, err := strconv.Atoi(idString)
