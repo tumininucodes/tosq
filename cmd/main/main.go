@@ -2,12 +2,9 @@ package main
 
 import (
 	"fmt"
-	"net/http"
-	"strconv"
 	"todo/cmd/main/controller"
 	_ "todo/cmd/main/docs"
 	"todo/db"
-	"todo/db/models"
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
 	swaggerFiles "github.com/swaggo/files"
@@ -31,38 +28,26 @@ func main() {
 	// Add swagger
 	server.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
-
+	// Get Todos
 	server.GET("/todos", func(ctx *gin.Context) {
-		controller.GetTodos(ctx, *database())
-		// ctx.JSON(200, db.GetTodos(database()))
+		controller.GetTodos(ctx, database())
 	})
 
+	// Create Todo
 	server.POST("/todo", func(ctx *gin.Context) {
-		var todo models.Todo
-		if err := ctx.ShouldBindJSON(&todo); err != nil {
-			ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-			return
-		}
-		ctx.JSON(201, db.CreateTodo(database(), &todo))
+		controller.CreateTodo(ctx, database())
 	})
 
+	// Delete Todo
 	server.DELETE("/todo/:id", func(ctx *gin.Context) {
 		id := ctx.Param("id")
-		ctx.JSON(200, db.DeleteTodo(database(), id))
+		controller.DeleteTodo(ctx, database(), id)
 	})
 
+	// Update Todo
 	server.PUT("todo/:id",  func(ctx *gin.Context) {
 		idString := ctx.Param("id")
-		todo := &models.Todo{}
-		id, err := strconv.Atoi(idString)
-		if err != nil {
-			ctx.JSON(400, gin.H{"error": "wrong id passed"})
-		}
-		if err := ctx.ShouldBindJSON(&todo); err != nil {
-			panic(err.Error())
-		}
-		todo.Id = int64(id)
-		ctx.JSON(200, db.UpdateTodo(database(), todo))
+		controller.UpdateTodo(idString, ctx, database())
 	})
 
 
