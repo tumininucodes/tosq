@@ -26,6 +26,17 @@ const docTemplate = `{
                     "todo"
                 ],
                 "summary": "Create todo",
+                "parameters": [
+                    {
+                        "description": "Todo object that is to be created",
+                        "name": "todo",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Todo"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -46,6 +57,17 @@ const docTemplate = `{
                     "todo"
                 ],
                 "summary": "Update todo",
+                "parameters": [
+                    {
+                        "description": "Todo object that is to be updated",
+                        "name": "todo",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Todo"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -64,6 +86,15 @@ const docTemplate = `{
                     "todo"
                 ],
                 "summary": "Delete todo",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Todo ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",

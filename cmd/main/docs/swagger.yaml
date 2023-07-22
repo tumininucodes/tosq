@@ -24,6 +24,13 @@ paths:
   /todo:
     post:
       description: Add a todo to the DB
+      parameters:
+      - description: Todo object that is to be created
+        in: body
+        name: todo
+        required: true
+        schema:
+          $ref: '#/definitions/models.Todo'
       produces:
       - application/json
       responses:
@@ -37,6 +44,12 @@ paths:
   /todo/:id:
     delete:
       description: Delete a todo from the DB
+      parameters:
+      - description: Todo ID
+        in: path
+        name: id
+        required: true
+        type: integer
       produces:
       - application/json
       responses:
@@ -49,6 +62,13 @@ paths:
       - todo
     put:
       description: Update a todo in the DB
+      parameters:
+      - description: Todo object that is to be updated
+        in: body
+        name: todo
+        required: true
+        schema:
+          $ref: '#/definitions/models.Todo'
       produces:
       - application/json
       responses:

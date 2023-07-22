@@ -25,6 +25,7 @@ func GetTodos(ctx *gin.Context, database *sql.DB) {
 // @Summary		Create todo
 // @Description	Add a todo to the DB
 // @Produce		application/json
+// @Param todo body models.Todo{} true "Todo object that is to be created"
 // @Tags 		todo
 // @Success 	200 {object} models.Todo{}
 // @Router		/todo [post]
@@ -41,6 +42,7 @@ func CreateTodo(ctx *gin.Context, database *sql.DB) {
 // @Summary		Delete todo
 // @Description	Delete a todo from the DB
 // @Produce		application/json
+// @Param 		id path int true "Todo ID"
 // @Tags 		todo
 // @Success 	200 {object} gin.H{}
 // @Router		/todo/:id [delete]
@@ -52,6 +54,7 @@ func DeleteTodo(ctx *gin.Context, database *sql.DB, id string) {
 // @Summary		Update todo
 // @Description	Update a todo in the DB
 // @Produce		application/json
+// @Param todo body models.Todo{} true "Todo object that is to be updated"
 // @Tags 		todo
 // @Success 	200 {object} models.Todo{}
 // @Router		/todo/:id [put]
